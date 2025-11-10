@@ -1,0 +1,2 @@
+name,description,pmAppConfiguration.empty,pmAppConfiguration.additionalProp1,pmAppConfiguration.additionalProp2,pmAppConfiguration.additionalProp3,pmApp
+Config 1,Initial setup,true,value1,value2,value3,nova-test
