@@ -93,7 +93,7 @@ export async function createMilestone(
   return post(
     "CREATE_MILESTONE",
     session,
-    "/api/v1/domain/milestones",
+    "/api/v1/process-model/milestones",
     payload,
     tenantId
   );
@@ -138,7 +138,7 @@ export async function createArtifactWebForm(
   return post(
     "CREATE_WEB_FORM",
     session,
-    "/api/v1/domain/web-forms",
+    "/api/v1/process-model/web-forms",
     {
       id: "",
       name: pmAppName, // changed from constant 'string' to provided pmAppName
@@ -158,7 +158,7 @@ export async function createArtifactFile(
   return post(
     "CREATE_WEB_FORM",
     session,
-    "/api/v1/domain/files",
+    "/api/v1/process-model/files",
     payload,
     tenantId
   );

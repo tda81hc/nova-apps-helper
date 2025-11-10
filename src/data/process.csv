@@ -1,0 +1,8 @@
+name,description,documentationUrl,lifecycle
+Concept Definition,"Defines the initial concept and project objectives.",https://example.com/concept-definition,PLAN
+Feasibility Analysis,"Evaluates the technical and business feasibility of the proposed solution.",https://example.com/feasibility-analysis,PLAN
+System Design,"Specifies architecture; modules; and integration plans.",https://example.com/system-design,LIVE
+Implementation,"Handles development, code integration, and feature rollout.",https://example.com/implementation,LIVE
+Validation & Testing,"Ensures quality through test cases, reviews, and performance checks.",https://example.com/validation-testing,LIVE
+Deployment,"Manages release preparation and transition to production environment.",https://example.com/deployment,END_OF_LIFE
+Decommissioning,"Focuses on system retirement, data archiving, and project closure.",https://example.com/decommissioning,END_OF_LIFE

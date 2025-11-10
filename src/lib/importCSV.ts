@@ -1,6 +1,6 @@
 import fs from "node:fs";
 import csv from "csv-parser";
-import { Endeavor, Milestone, Phase } from "../types";
+import { Endeavor, Milestone, Phase, Process } from "../types";
 import path from "node:path";
 
 export interface PmApp {
@@ -45,6 +45,7 @@ function convertRows(fileType: string, rows: any[]): any[] {
       })) as PmApp[];
 
     case "milestones":
+    case "proces-lcm-milestones":
       return rows.map((r) => ({
         id: r.id,
         name: r.name,
@@ -75,6 +76,15 @@ function convertRows(fileType: string, rows: any[]): any[] {
         mcrId: r.mcrId,
         status: r.status,
       })) as Endeavor[];
+      
+    case "process":
+      return rows.map((r) => ({
+        id: r.id,
+        name: r.name,
+        description: r.description,
+        documentationUrl: r.documentationUrl,
+        lifecycle: r.lifecycle,
+      })) as Process[];
 
     default:
       console.warn(`⚠️ Unknown file type: ${fileType}`);
