@@ -1,6 +1,6 @@
 import fs from "node:fs";
 import csv from "csv-parser";
-import { Milestone, Phase } from "../types";
+import { Endeavor, Milestone, Phase } from "../types";
 import path from "node:path";
 
 export interface PmApp {
@@ -59,6 +59,22 @@ function convertRows(fileType: string, rows: any[]): any[] {
         nextMilestone: r.nextMilestone,
         description: r.description || "",
       })) as Phase[];
+
+    case "endeavors":
+      return rows.map((r) => ({
+        id: r.id,
+        name: r.name,
+        owner: r.owner,
+        proxy: r.proxy,
+        sponsor: r.sponsor,
+        partnerGb: r.partnerGb,
+        businessUnit: r.businessUnit,
+        currency: r.currency,
+        category: r.category,
+        type: r.type,
+        mcrId: r.mcrId,
+        status: r.status,
+      })) as Endeavor[];
 
     default:
       console.warn(`⚠️ Unknown file type: ${fileType}`);

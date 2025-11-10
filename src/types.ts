@@ -57,3 +57,19 @@ export interface WorkPackage {
   description: string;
   phaseId: string;
 }
+
+export type Endeavor = {
+  id: string;
+  name: string;
+  description: string;
+  owner: string;
+  proxy: string;
+  sponsor: string;
+  partnerGb: string;
+  businessUnit: string;
+  currency: string;
+  category: string;
+  type: string;
+  mcrId: string;
+  status: "OPEN" | "IN_PROGRESS" | "DISABLED" | "DONE"; // expand as needed
+};

@@ -5,6 +5,7 @@ import { PmApp } from "./importCSV";
 import {
   Activity,
   ArtifactFile,
+  Endeavor,
   Milestone,
   Phase,
   Process,
@@ -291,4 +292,18 @@ export async function getTenantId(session: string, name: string) {
 export function arg(name: string, def?: string) {
   const p = process.argv.find((a) => a.startsWith(`--${name}=`));
   return p ? p.split("=")[1] : def;
+}
+
+export async function createEndeavor(
+  session: string,
+  tenantId: string,
+  payload: Endeavor
+) {
+  return post(
+    "CREATE_ENDEAVOR",
+    session,
+    `/api/v1/project-management/endeavors`,
+    payload,
+    tenantId
+  );
 }
