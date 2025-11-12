@@ -1,7 +1,8 @@
-
 import { PROCESS_LCM } from "./constant/process-lcm";
 import { PROCESS_LCM1 } from "./constant/process-lcm1";
 import { PROCESS_LCM2 } from "./constant/process-lcm2";
+import { PROCESS_LCM3 } from "./constant/process-lcm3";
+import { PROCESS_LCM4 } from "./constant/process-lcm4";
 import {
   arg,
   createMilestone,
@@ -11,7 +12,13 @@ import {
   getTenantId,
 } from "./lib/api";
 
-const ALL_PROCESSES = [PROCESS_LCM, PROCESS_LCM1, PROCESS_LCM2];
+const ALL_PROCESSES = [
+  PROCESS_LCM,
+  PROCESS_LCM1,
+  PROCESS_LCM2,
+  PROCESS_LCM3,
+  PROCESS_LCM4,
+];
 
 async function run() {
   const session = arg("session") || process.env.JSESSIONID;
@@ -78,8 +85,16 @@ async function run() {
           name: independentPhase.name,
           description: independentPhase.description,
         };
-        const phaseId = await createPhase(session, tenantId, processId, phaseObj);
-        if (phaseId) console.log(`  ✅ Created independent phase: ${independentPhase.name}`);
+        const phaseId = await createPhase(
+          session,
+          tenantId,
+          processId,
+          phaseObj
+        );
+        if (phaseId)
+          console.log(
+            `  ✅ Created independent phase: ${independentPhase.name}`
+          );
       }
     }
 
