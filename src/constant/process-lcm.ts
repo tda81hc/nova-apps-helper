@@ -1,0 +1,54 @@
+export const PROCESS_LCM = {
+  processData: {
+    name: "Type Process Demo 0",
+    description: "Demo process created via script",
+    documentationUrl: "https://example.com",
+    lifecycle: "PLAN",
+  },
+  milestones: [
+    { name: "SsY", description: "Project start milestone" },
+    { name: "mds", description: "Planning milestone" },
+    { name: "UFS", description: "System design approved" },
+    { name: "UM4", description: "Prototype ready" },
+    { name: "QdB", description: "Testing completed" },
+    { name: "VaF", description: "Validation and release" },
+    { name: "J1t", description: "Final test readiness" },
+    { name: "TTT", description: "Project closure" },
+    { name: "thm", description: "Subflow review" },
+    { name: "goo", description: "Parallel start milestone" },
+    { name: "vkF", description: "Parallel mid milestone" },
+  ],
+  // 🔗 milestone mapping for phases
+  map: {
+    "Phase 1": ["SsY", "mds"],
+    "Phase 2": ["mds", "UFS"],
+    "Phase 3": ["UFS", "UM4"],
+    "Phase 4": ["UM4", "QdB"],
+    "Phase 5": ["QdB", "VaF"],
+    "Phase 6": ["VaF", "J1t"],
+    "Phase 7": ["J1t", "TTT"],
+    "Phase 2.2": ["mds", "goo"],
+    "Phase 3.2": ["goo", "vkF"],
+    "Phase 4.2": ["vkF", "VaF"],
+    "Phase 3.1": ["UFS", "thm"],
+    "Phase 4.1": ["thm", "VaF"],
+    "Phase 3.3": ["goo", "vkF"],
+    "Phase 3.8": ["vkF", "VaF"],
+    "Phase 3.6": ["goo", "VaF"],
+    "Phase 3.7": ["goo", "VaF"],
+  } as Record<string, [string, string]>,
+  independentPhases: [
+    {
+      name: "Independent Phase A",
+      description: "Standalone phase without milestones A",
+    },
+    {
+      name: "Independent Phase B",
+      description: "Standalone phase without milestones B",
+    },
+    {
+      name: "Independent Phase C",
+      description: "Standalone phase without milestones C",
+    },
+  ] as Array<{ name: string; description: string }>,
+};

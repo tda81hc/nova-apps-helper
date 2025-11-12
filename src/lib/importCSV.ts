@@ -65,6 +65,7 @@ function convertRows(fileType: string, rows: any[]): any[] {
       return rows.map((r) => ({
         id: r.id,
         name: r.name,
+        description: r.description,
         owner: r.owner,
         proxy: r.proxy,
         sponsor: r.sponsor,

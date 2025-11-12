@@ -20,8 +20,8 @@ export interface Milestone {
 export interface Phase {
   id: string;
   name: string;
-  previousMilestone: string;
-  nextMilestone: string;
+  previousMilestone?: string; // Optional for independent phases
+  nextMilestone?: string; // Optional for independent phases
   description?: string;
 }
 

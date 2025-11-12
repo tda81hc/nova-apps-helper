@@ -23,6 +23,7 @@ export async function run() {
   const data = await importMultipleCSVs(["src/data/endeavors.csv"]);
 
   for (const endeavor of data["endeavors"]) {
+    console.log("Creating Endeavor:", endeavor);
     const endeavorId = await createEndeavor(session, tenantId, endeavor);
     console.log("✅ Created Endeavor with ID:", endeavorId);
   }
