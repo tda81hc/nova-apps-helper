@@ -33,14 +33,14 @@ async function run() {
     process.exit(1);
   }
 
+  console.log(`[CFG] Tenant = ${tenantName}`);
+  console.log("[CFG] Backend =", getBackendURL());
+  const tenantId = await getTenantId(session, tenantName);
+  console.log("✅ tenantId =", tenantId);
+
   for (const cfg of ALL_PROCESSES) {
     console.log("\n===================================================");
     console.log(`🚀 Creating process: ${cfg.processData.name}`);
-    console.log(`[CFG] Tenant = ${tenantName}`);
-    console.log("[CFG] Backend =", getBackendURL());
-
-    const tenantId = await getTenantId(session, tenantName);
-    console.log("✅ tenantId =", tenantId);
 
     // --- Create process
     const processId = await createProcess(session, tenantId, cfg.processData);

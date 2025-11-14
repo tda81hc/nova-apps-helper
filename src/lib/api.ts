@@ -11,13 +11,27 @@ import {
   Process,
   WorkPackage,
 } from "../types";
+import { HttpsProxyAgent } from "https-proxy-agent";
 
 const GLOBAL_XSRF = process.env.XSRF_TOKEN || "1";
-let backendURL: string = process.env.BACKEND_URL || "http://localhost:8080";
+
+let backendURL: string =
+  process.env.BACKEND_URL || "https://nova-dev.aid.bosch.com";
+// let backendURL: string = process.env.BACKEND_URL || "http://localhost:8080";
+
+// get proxy URL from env or fallback
+const proxyUrl = process.env.HTTPS_PROXY || "http://127.0.0.1:3128";
+
+// pass the URL string directly
+const agent = new HttpsProxyAgent(proxyUrl);
+
+// if you need to ignore self-signed certs (dev only)
+process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
 
 export function setBackendURL(url: string) {
   backendURL = (url || "http://localhost:8080").replace(/\/$/, "");
 }
+
 export function getBackendURL() {
   return backendURL;
 }
@@ -63,6 +77,8 @@ async function post(
   try {
     const res = await axios.post(url, payload, {
       headers: buildHeaders(session, tenantId),
+      httpsAgent: agent, // ✅ use proxy agent
+      proxy: false, // ✅ prevent Axios double-proxying
     });
     return res.data?.id ?? res.data?.name;
   } catch (e) {
@@ -274,10 +290,16 @@ export async function createRole(
     throw e;
   }
 }
+
 export async function getTenantId(session: string, name: string) {
   try {
+    console.log(
+      `[GET_TENANTS] Fetching tenants from ${backendURL}/api/v1/tenants`
+    );
     const res = await axios.get(`${backendURL}/api/v1/tenants`, {
       headers: { Cookie: `JSESSIONID=${session};` },
+      httpsAgent: agent,
+      proxy: false,
     });
     const arr = res.data as Array<any>;
     const entry = Array.isArray(arr)
@@ -289,6 +311,7 @@ export async function getTenantId(session: string, name: string) {
     throw e;
   }
 }
+
 export function arg(name: string, def?: string) {
   const p = process.argv.find((a) => a.startsWith(`--${name}=`));
   return p ? p.split("=")[1] : def;
