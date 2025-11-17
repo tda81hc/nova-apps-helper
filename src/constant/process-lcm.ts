@@ -1,4 +1,5 @@
 export const PROCESS_LCM = {
+  pmApp: {},
   processData: {
     name: "Type Process Demo 0",
     description: "Demo process created via script",
@@ -51,4 +52,6 @@ export const PROCESS_LCM = {
       description: "Standalone phase without milestones C",
     },
   ] as Array<{ name: string; description: string }>,
+  workPackages: [],
+  artifact: {},
 };

@@ -1,13 +1,14 @@
 // API module providing create* functions and helpers
 
 import axios from "axios";
-import { PmApp } from "./importCSV";
 import {
   Activity,
   ArtifactFile,
+  ArtifactWebForm,
   Endeavor,
   Milestone,
   Phase,
+  PmApp,
   Process,
   WorkPackage,
 } from "../types";
@@ -15,9 +16,9 @@ import { HttpsProxyAgent } from "https-proxy-agent";
 
 const GLOBAL_XSRF = process.env.XSRF_TOKEN || "1";
 
-let backendURL: string =
-  process.env.BACKEND_URL || "https://nova-dev.aid.bosch.com";
-// let backendURL: string = process.env.BACKEND_URL || "http://localhost:8080";
+// let backendURL: string =
+// process.env.BACKEND_URL || "https://nova-dev.aid.bosch.com";
+let backendURL: string = process.env.BACKEND_URL || "http://localhost:8080";
 
 // get proxy URL from env or fallback
 const proxyUrl = process.env.HTTPS_PROXY || "http://127.0.0.1:3128";
@@ -149,19 +150,13 @@ export async function createWorkPackage(
 export async function createArtifactWebForm(
   session: string,
   tenantId: string,
-  pmAppName: string
+  payload: ArtifactWebForm
 ) {
   return post(
     "CREATE_WEB_FORM",
     session,
     "/api/v1/process-model/web-forms",
-    {
-      id: "",
-      name: pmAppName, // changed from constant 'string' to provided pmAppName
-      description: "string",
-      pmAppConfiguration: { empty: true },
-      pmApp: pmAppName,
-    },
+    payload,
     tenantId
   );
 }
@@ -198,7 +193,7 @@ export async function createActivity(
 }
 
 export async function createPmApp(session: string, payload: PmApp) {
-  const url = `${backendURL}/api/v1/pm-apps-registry/`;
+  const url = `${backendURL}/api/v1/pm-apps-registry`;
 
   const headers: Record<string, string> = {
     Cookie: `JSESSIONID=${session}; XSRF-TOKEN=${GLOBAL_XSRF};`,

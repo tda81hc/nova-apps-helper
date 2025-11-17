@@ -5,14 +5,20 @@ import { PROCESS_LCM3 } from "./constant/process-lcm3";
 import { PROCESS_LCM4 } from "./constant/process-lcm4";
 import {
   arg,
+  createActivity,
+  createArtifactFile,
+  createArtifactWebForm,
   createMilestone,
   createPhase,
+  createPmApp,
   createProcess,
+  createWorkPackage,
   getBackendURL,
   getTenantId,
 } from "./lib/api";
+import { ArtifactFile, ArtifactWebForm, PmApp, ProcessConfig } from "./types";
 
-const ALL_PROCESSES = [
+const ALL_PROCESSES: ProcessConfig[] = [
   PROCESS_LCM,
   PROCESS_LCM1,
   PROCESS_LCM2,
@@ -37,10 +43,70 @@ async function run() {
   console.log("[CFG] Backend =", getBackendURL());
   const tenantId = await getTenantId(session, tenantName);
   console.log("✅ tenantId =", tenantId);
+  if (!tenantId) {
+    console.error("❌ Missing tenantId: use --name=<TENANT_NAME>");
+    process.exit(1);
+  }
 
   for (const cfg of ALL_PROCESSES) {
     console.log("\n===================================================");
     console.log(`🚀 Creating process: ${cfg.processData.name}`);
+
+    // --- Create PM APp
+    const createdPmAppMap: Record<string, string> = {};
+    for (const pm of cfg.pmApps || []) {
+      if (!pm.name) {
+        console.error(`❌ Missing PM App configuration`);
+        continue;
+      }
+
+      const pmAppId = await createPmApp(session, pm);
+
+      if (pmAppId) {
+        createdPmAppMap[pm.name] = pmAppId;
+        console.log(`  ✅ Created PM App: ${pm.name} (ID: ${pmAppId})`);
+      } else {
+        console.error(`❌ Failed to create PM App: ${pm.name}`);
+        process.exit(1);
+      }
+    }
+
+    // --- Create Artifact
+    // --- Type FILE
+    const createdArtifactFiletMap: Record<string, ArtifactFile> = {};
+    for (const f of cfg.artifact?.files || []) {
+      console.log(`🔹 Uploading Artifact File: ${f.name}`);
+      const fileId = await createArtifactFile(session, tenantId, f);
+      if (!fileId) {
+        console.error(`❌ Failed to create Artifact File: ${f.name}`);
+        continue;
+      } else {
+        createdArtifactFiletMap[f.name] = { ...f, id: fileId };
+        console.log(`  ✅ Created Artifact File: ${f.name} (ID: ${fileId})`);
+      }
+    }
+    // --- Type WEB_FORM
+    const createdArtifactWebFormMap: Record<string, ArtifactWebForm> = {};
+    for (const wf of cfg.artifact?.webForms || []) {
+      const webFormWithApp = { ...wf, pmApp: wf.pmApp };
+      const webFormId = await createArtifactWebForm(
+        session,
+        tenantId,
+        webFormWithApp
+      );
+      if (!webFormId) {
+        console.error(`❌ Failed to create Artifact Web Form: ${wf.name}`);
+        continue;
+      } else {
+        createdArtifactWebFormMap[wf.name] = {
+          ...webFormWithApp,
+          id: webFormId,
+        };
+        console.log(
+          `  ✅ Created Artifact Web Form: ${wf.name} (ID: ${webFormId})`
+        );
+      }
+    }
 
     // --- Create process
     const processId = await createProcess(session, tenantId, cfg.processData);
@@ -55,6 +121,9 @@ async function run() {
       const id = await createMilestone(session, tenantId, m);
       if (id) milestoneMap[m.name] = id;
     }
+
+    // ⭐ Lưu phaseName → created phaseId backend
+    const createdPhaseMap: Record<string, string> = {};
 
     // --- Create phases using predefined map
     for (const [phaseName, [from, to]] of Object.entries(cfg.map)) {
@@ -72,29 +141,127 @@ async function run() {
         previousMilestone,
         nextMilestone,
       };
+
       const phaseId = await createPhase(session, tenantId, processId, phaseObj);
-      if (phaseId) console.log(`  ✅ Created phase: ${phaseName}`);
+
+      if (phaseId) {
+        createdPhaseMap[phaseName] = phaseId; // ⭐ save mapping
+        console.log(`  ✅ Created phase: ${phaseName}`);
+      }
     }
 
     // --- Create independent phases (no milestones)
     if (cfg.independentPhases && cfg.independentPhases.length > 0) {
       console.log("\n🔹 Creating independent phases (no milestones)...");
+
       for (const independentPhase of cfg.independentPhases) {
         const phaseObj = {
           id: "",
           name: independentPhase.name,
           description: independentPhase.description,
         };
+
         const phaseId = await createPhase(
           session,
           tenantId,
           processId,
           phaseObj
         );
-        if (phaseId)
+
+        if (phaseId) {
+          createdPhaseMap[independentPhase.name] = phaseId; // ⭐ save mapping
           console.log(
             `  ✅ Created independent phase: ${independentPhase.name}`
           );
+        }
+      }
+    }
+
+    // --- Create work packages
+    const createdWorkPackagesMap: Record<string, string> = {};
+    if (cfg.workPackages && cfg.workPackages.length > 0) {
+      console.log("\n🔹 Creating work packages...");
+
+      for (const wp of cfg.workPackages) {
+        const phaseId = createdPhaseMap[wp.phaseId]; // ⭐  phase name → real Id
+
+        if (!phaseId) {
+          console.warn(`⚠️ Missing phaseId for WP: ${wp.name}`);
+          continue;
+        }
+
+        const workPkg = {
+          id: "",
+          name: wp.name,
+          description: wp.description,
+          phaseId,
+        };
+
+        const wpId = await createWorkPackage(
+          session,
+          tenantId,
+          processId,
+          phaseId,
+          workPkg
+        );
+
+        if (wpId) {
+          createdWorkPackagesMap[wp.name] = wpId; // ⭐ save mapping
+          console.log(`  📦 Created work package: ${wp.name}`);
+        }
+      }
+    }
+
+    // ---Create activities
+    for (const a of cfg.activities || []) {
+      const phaseId = createdPhaseMap[a.phaseId];
+      const workPackageId = createdWorkPackagesMap[a.workPackageId];
+
+      const inputArtifacts = a.inputArtifacts
+        ?.map((art: any) => {
+          const name = typeof art === "string" ? art : art.name;
+
+          const found = createdArtifactFiletMap[name];
+
+          if (found) {
+            return found;
+          }
+
+          return undefined;
+        })
+        .filter((item): item is ArtifactFile => item !== undefined);
+
+      const outputArtifacts = a.outputArtifacts
+        ?.map((art: any) => {
+          const name = typeof art === "string" ? art : art.name;
+
+          const found = createdArtifactWebFormMap[name];
+
+          if (found) {
+            return found;
+          }
+
+          return undefined;
+        })
+        .filter((item): item is ArtifactWebForm => item !== undefined);
+
+      const activity = {
+        ...a,
+        inputArtifacts,
+        outputArtifacts,
+        phaseId,
+        workPackageId,
+      };
+      const activityId = await createActivity(
+        session,
+        tenantId,
+        processId,
+        phaseId,
+        workPackageId,
+        activity
+      );
+      if (activityId) {
+        console.log(`    📝 Created activity: ${a.name}`);
       }
     }
 

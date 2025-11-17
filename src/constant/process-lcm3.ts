@@ -1,4 +1,5 @@
 export const PROCESS_LCM3 = {
+  pmApp: {},
   processData: {
     name: "Type Process Demo 3",
     description: "Demo process showing main and parallel phases from M0 → M8",
@@ -38,4 +39,6 @@ export const PROCESS_LCM3 = {
     "Validation Track B": ["M6-QGC5", "M7-QGC6"],
   } as Record<string, [string, string]>,
   independentPhases: [],
+  workPackages: [],
+  artifact: {},
 };

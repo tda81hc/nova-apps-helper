@@ -1,4 +1,5 @@
 export const PROCESS_LCM1 = {
+  pmApp: {},
   processData: {
     name: "Type Process Demo 1",
     description: "Demo process created via script",
@@ -33,4 +34,6 @@ export const PROCESS_LCM1 = {
     "Phase 4.1": ["thm", "VaF"],
   } as Record<string, [string, string]>,
   independentPhases: [] as Array<{ name: string; description: string }>,
+  workPackages: [],
+  artifact: {},
 };

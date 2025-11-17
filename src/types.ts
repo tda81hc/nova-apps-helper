@@ -1,14 +1,14 @@
 // 📘 src/types.ts
 export interface PmApp {
-  id: string | null;
+  id?: string;
   name: string;
-  dataSchemaVersion: string;
-  configSchemaVersion: string;
-  contextPath: string;
-  createdBy: string;
-  modifiedBy: string;
-  createdAt: string;
-  modifiedAt: string;
+  dataSchemaVersion?: string;
+  configSchemaVersion?: string;
+  contextPath?: string;
+  createdBy?: string | null;
+  modifiedBy?: string | null;
+  createdAt?: string | null;
+  modifiedAt?: string | null;
 }
 
 export interface Milestone {
@@ -26,12 +26,47 @@ export interface Phase {
 }
 
 export interface ArtifactFile {
-  id: string;
+  id?: string;
   name: string;
-  description: string;
+  description?: string;
+  type: string;
   relativePath: string;
 }
 
+export interface ArtifactWebForm {
+  id?: string;
+  name: string;
+  description?: string;
+  type: string;
+  pmAppConfiguration?: Record<string, any>;
+  pmApp?: string;
+}
+export interface IndependentPhase {
+  name: string;
+  description: string;
+}
+
+export interface WorkPackage {
+  name: string;
+  description: string;
+  phaseId: string;
+}
+
+export interface Artifact {
+  files?: ArtifactFile[];
+  webForms?: ArtifactWebForm[];
+}
+
+export interface ProcessConfig {
+  processData: any;
+  milestones: any[];
+  map: Record<string, [string, string]>;
+  independentPhases?: IndependentPhase[];
+  workPackages?: WorkPackage[];
+  pmApps?: PmApp[];
+  artifact?: Artifact;
+  activities?: Activity[];
+}
 export interface Process {
   id?: string;
   name: string;
@@ -41,20 +76,14 @@ export interface Process {
 }
 
 export interface Activity {
-  id: string;
+  id?: string;
   name: string;
   description: string;
-  responsibleRole?: string;
+  responsibleRole?: string | null;
   supportingRoles?: string[];
-  inputArtifacts?: string[];
-  outputArtifacts?: string[];
+  inputArtifacts?: ArtifactFile[] | undefined;
+  outputArtifacts?: ArtifactWebForm[] | undefined;
   workPackageId: string;
-}
-
-export interface WorkPackage {
-  id: string;
-  name: string;
-  description: string;
   phaseId: string;
 }
 

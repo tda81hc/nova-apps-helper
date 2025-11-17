@@ -1,4 +1,5 @@
 export const PROCESS_LCM2 = {
+  pmApp: {},
   processData: {
     name: "Type Process Demo 2",
     description: "Demo process showing main and parallel phases from M0 → M8",
@@ -60,4 +61,6 @@ export const PROCESS_LCM2 = {
     },
     { name: "Independent Phase 8", description: "Independent Phase 8" },
   ],
+  workPackages: [],
+  artifact: {},
 };
