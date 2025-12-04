@@ -4,6 +4,7 @@ import {
   createArtifactFile,
   createArtifactWebForm,
   createMilestone,
+  createNovaApp,
   createPhase,
   createPmApp,
   createProcess,
@@ -56,9 +57,9 @@ async function run() {
   // registry pm app
 
   let pmAppName = "";
-  for (const p of data["pm-app"]) {
-    const pmAppId = await createPmApp(session, p);
-    console.log("✅ Created PmApp with ID:", pmAppId);
+  for (const p of data["nova-app"]) {
+    const novaAppId = await createNovaApp(session, p);
+    console.log("✅ Created Nova App with ID:", novaAppId);
     pmAppName = p.name;
   }
   // create milestone

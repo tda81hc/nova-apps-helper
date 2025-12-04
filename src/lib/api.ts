@@ -7,8 +7,8 @@ import {
   ArtifactWebForm,
   Endeavor,
   Milestone,
+  NovaApp,
   Phase,
-  PmApp,
   Process,
   WorkPackage,
 } from "../types";
@@ -192,8 +192,8 @@ export async function createActivity(
   );
 }
 
-export async function createPmApp(session: string, payload: PmApp) {
-  const url = `${backendURL}/api/v1/pm-apps-registry`;
+export async function createNovaApp(session: string, payload: NovaApp) {
+  const url = `${backendURL}/api/v1/nova-apps-registry`;
 
   const headers: Record<string, string> = {
     Cookie: `JSESSIONID=${session}; XSRF-TOKEN=${GLOBAL_XSRF};`,
@@ -211,12 +211,12 @@ export async function createPmApp(session: string, payload: PmApp) {
       e.response.data.detail.includes("already exists")
     ) {
       console.warn(
-        "[CREATE_PM_APP] Duplicate name detected, reusing existing name:",
+        "[CREATE_NOVA_APP] Duplicate name detected, reusing existing name:",
         name
       );
       return name;
     }
-    logHttpError("CREATE_PM_APP", e);
+    logHttpError("CREATE_NOVA_APP", e);
     throw e;
   }
 }

@@ -1,10 +1,9 @@
 // 📘 src/types.ts
-export interface PmApp {
+export interface NovaApp {
   id?: string;
   name: string;
   dataSchemaVersion?: string;
   configSchemaVersion?: string;
-  contextPath?: string;
   createdBy?: string | null;
   modifiedBy?: string | null;
   createdAt?: string | null;
@@ -38,8 +37,8 @@ export interface ArtifactWebForm {
   name: string;
   description?: string;
   type: string;
-  pmAppConfiguration?: Record<string, any>;
-  pmApp?: string;
+  appConfiguration?: Record<string, any>;
+  novaApp?: string;
 }
 export interface IndependentPhase {
   name: string;
@@ -63,7 +62,7 @@ export interface ProcessConfig {
   map: Record<string, [string, string]>;
   independentPhases?: IndependentPhase[];
   workPackages?: WorkPackage[];
-  pmApps?: PmApp[];
+  novaApps?: NovaApp[];
   artifact?: Artifact;
   activities?: Activity[];
 }

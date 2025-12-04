@@ -3,27 +3,35 @@ import { PROCESS_LCM1 } from "./constant/process-lcm1";
 import { PROCESS_LCM2 } from "./constant/process-lcm2";
 import { PROCESS_LCM3 } from "./constant/process-lcm3";
 import { PROCESS_LCM4 } from "./constant/process-lcm4";
+import { PROCESS_LCM5 } from "./constant/process-lcm5";
+import { PROCESS_LCM6 } from "./constant/process-lcm6";
+import { PROCESS_LCM6_1 } from "./constant/process-lcm6.1";
+import { PROCESS_LCM7 } from "./constant/process-lcm7";
 import {
   arg,
   createActivity,
   createArtifactFile,
   createArtifactWebForm,
   createMilestone,
+  createNovaApp,
   createPhase,
-  createPmApp,
   createProcess,
   createWorkPackage,
   getBackendURL,
   getTenantId,
 } from "./lib/api";
-import { ArtifactFile, ArtifactWebForm, PmApp, ProcessConfig } from "./types";
+import { ArtifactFile, ArtifactWebForm, ProcessConfig } from "./types";
 
 const ALL_PROCESSES: ProcessConfig[] = [
-  PROCESS_LCM,
-  PROCESS_LCM1,
-  PROCESS_LCM2,
-  PROCESS_LCM3,
-  PROCESS_LCM4,
+  // PROCESS_LCM,
+  // PROCESS_LCM1,
+  // PROCESS_LCM2,
+  // PROCESS_LCM3,
+  // PROCESS_LCM4,
+  // PROCESS_LCM5,
+  // PROCESS_LCM6,
+  // PROCESS_LCM6_1,
+  PROCESS_LCM7,
 ];
 
 async function run() {
@@ -52,21 +60,22 @@ async function run() {
     console.log("\n===================================================");
     console.log(`🚀 Creating process: ${cfg.processData.name}`);
 
-    // --- Create PM APp
-    const createdPmAppMap: Record<string, string> = {};
-    for (const pm of cfg.pmApps || []) {
-      if (!pm.name) {
-        console.error(`❌ Missing PM App configuration`);
+    // --- Create Nova App
+    const createdNovaAppMap: Record<string, string> = {};
+    for (const novaApp of cfg.novaApps || []) {
+      if (!novaApp.name) {
+        console.error(`❌ Missing Nova App configuration`);
         continue;
       }
 
-      const pmAppId = await createPmApp(session, pm);
-
-      if (pmAppId) {
-        createdPmAppMap[pm.name] = pmAppId;
-        console.log(`  ✅ Created PM App: ${pm.name} (ID: ${pmAppId})`);
+      const novaAppId = await createNovaApp(session, novaApp);
+      if (novaAppId) {
+        createdNovaAppMap[novaApp.name] = novaAppId;
+        console.log(
+          `  ✅ Created Nova App: ${novaApp.name} (ID: ${novaAppId})`
+        );
       } else {
-        console.error(`❌ Failed to create PM App: ${pm.name}`);
+        console.error(`❌ Failed to create Nova App: ${novaApp.name}`);
         process.exit(1);
       }
     }
@@ -88,7 +97,9 @@ async function run() {
     // --- Type WEB_FORM
     const createdArtifactWebFormMap: Record<string, ArtifactWebForm> = {};
     for (const wf of cfg.artifact?.webForms || []) {
-      const webFormWithApp = { ...wf, pmApp: wf.pmApp };
+      const webFormWithApp = { ...wf, novaApp: wf.novaApp };
+
+      console.log("webFormWithApp: ", webFormWithApp);
       const webFormId = await createArtifactWebForm(
         session,
         tenantId,

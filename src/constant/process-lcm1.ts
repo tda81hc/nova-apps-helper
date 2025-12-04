@@ -1,5 +1,5 @@
 export const PROCESS_LCM1 = {
-  pmApp: {},
+  novaApps: [],
   processData: {
     name: "Type Process Demo 1",
     description: "Demo process created via script",

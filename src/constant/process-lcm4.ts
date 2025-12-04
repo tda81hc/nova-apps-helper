@@ -1,10 +1,9 @@
 export const PROCESS_LCM4 = {
-  pmApps: [
+  novaApps: [
     {
       name: "nova-test-app1",
       dataSchemaVersion: "1.0.0",
       configSchemaVersion: "1.0.0",
-      contextPath: "/nova-test",
       createdBy: null,
       modifiedBy: null,
       createdAt: null,
@@ -14,7 +13,6 @@ export const PROCESS_LCM4 = {
       name: "nova-test-app2",
       dataSchemaVersion: "1.0.0",
       configSchemaVersion: "1.0.0",
-      contextPath: "/nova-test2",
       createdBy: null,
       modifiedBy: null,
       createdAt: null,
@@ -24,7 +22,6 @@ export const PROCESS_LCM4 = {
       name: "nova-test-app3",
       dataSchemaVersion: "1.0.0",
       configSchemaVersion: "1.0.0",
-      contextPath: "/nova-test3",
       createdBy: null,
       modifiedBy: null,
       createdAt: null,
@@ -34,7 +31,6 @@ export const PROCESS_LCM4 = {
       name: "nova-test-app4",
       dataSchemaVersion: "1.0.0",
       configSchemaVersion: "1.0.0",
-      contextPath: "/nova-test4",
       createdBy: null,
       modifiedBy: null,
       createdAt: null,
@@ -44,7 +40,6 @@ export const PROCESS_LCM4 = {
       name: "nova-workflow",
       dataSchemaVersion: "1.0.0",
       configSchemaVersion: "1.0.0",
-      contextPath: "/nova-workflow",
       createdBy: null,
       modifiedBy: null,
       createdAt: null,
@@ -54,7 +49,6 @@ export const PROCESS_LCM4 = {
       name: "nova-analytics",
       dataSchemaVersion: "1.0.0",
       configSchemaVersion: "1.0.0",
-      contextPath: "/nova-analytics",
       createdBy: null,
       modifiedBy: null,
       createdAt: null,
@@ -251,73 +245,73 @@ export const PROCESS_LCM4 = {
         name: "nova-test-app1",
         description: "Description for nova-test-app1",
         type: "WEBFORM",
-        pmAppConfiguration: {
+        appConfiguration: {
           empty: true,
           additionalProp1: "string",
           additionalProp2: "string",
           additionalProp3: "string",
         },
-        pmApp: "nova-test-app1",
+        novaApp: "nova-test-app1",
       },
       {
         name: "nova-test-app2",
         description: "Description for nova-test-app2",
         type: "WEBFORM",
-        pmAppConfiguration: {
+        appConfiguration: {
           empty: true,
           additionalProp1: "string",
           additionalProp2: "string",
           additionalProp3: "string",
         },
-        pmApp: "nova-test-app2",
+        novaApp: "nova-test-app2",
       },
       {
         name: "nova-test-app3",
         description: "Description for nova-test-app3",
         type: "WEBFORM",
-        pmAppConfiguration: {
+        appConfiguration: {
           empty: true,
           additionalProp1: "string",
           additionalProp2: "string",
           additionalProp3: "string",
         },
-        pmApp: "nova-test-app3",
+        novaApp: "nova-test-app3",
       },
       {
         name: "nova-test-app4",
         description: "Description for nova-test-app4",
         type: "WEBFORM",
-        pmAppConfiguration: {
+        appConfiguration: {
           empty: true,
           additionalProp1: "string",
           additionalProp2: "string",
           additionalProp3: "string",
         },
-        pmApp: "nova-test-app4",
+        novaApp: "nova-test-app4",
       },
       {
         name: "nova-workflow",
         description: "Workflow PM App",
         type: "WEBFORM",
-        pmAppConfiguration: {
+        appConfiguration: {
           empty: true,
           additionalProp1: "string",
           additionalProp2: "string",
           additionalProp3: "string",
         },
-        pmApp: "nova-workflow",
+        novaApp: "nova-workflow",
       },
       {
         name: "nova-analytics",
         description: "Analytics PM App",
         type: "WEBFORM",
-        pmAppConfiguration: {
+        appConfiguration: {
           empty: true,
           additionalProp1: "string",
           additionalProp2: "string",
           additionalProp3: "string",
         },
-        pmApp: "nova-analytics",
+        novaApp: "nova-analytics",
       },
     ],
   },

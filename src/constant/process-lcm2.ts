@@ -1,5 +1,5 @@
 export const PROCESS_LCM2 = {
-  pmApp: {},
+  novaApps: [],
   processData: {
     name: "Type Process Demo 2",
     description: "Demo process showing main and parallel phases from M0 → M8",
