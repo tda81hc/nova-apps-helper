@@ -6,7 +6,7 @@ export const PROCESS_LCM6 = {
     name: "Type Process Demo 6 - LCM",
     description: "Demo process created via script",
     documentationUrl: "https://example.com",
-    lifecycle: "PLAN",
+    lifecycle: "LIVE",
   },
   milestones: [
     { name: "M0 Start", description: "Project start milestone" },

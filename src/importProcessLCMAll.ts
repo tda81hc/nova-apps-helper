@@ -23,14 +23,14 @@ import {
 import { ArtifactFile, ArtifactWebForm, ProcessConfig } from "./types";
 
 const ALL_PROCESSES: ProcessConfig[] = [
-  // PROCESS_LCM,
-  // PROCESS_LCM1,
-  // PROCESS_LCM2,
-  // PROCESS_LCM3,
-  // PROCESS_LCM4,
-  // PROCESS_LCM5,
-  // PROCESS_LCM6,
-  // PROCESS_LCM6_1,
+  PROCESS_LCM,
+  PROCESS_LCM1,
+  PROCESS_LCM2,
+  PROCESS_LCM3,
+  PROCESS_LCM4,
+  PROCESS_LCM5,
+  PROCESS_LCM6,
+  PROCESS_LCM6_1,
   PROCESS_LCM7,
 ];
 

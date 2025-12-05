@@ -60,7 +60,7 @@ export const PROCESS_LCM4 = {
     name: "Type Process Demo 4",
     description: "Demo process showing main and parallel phases from M0 → M8",
     documentationUrl: "https://example.com/",
-    lifecycle: "PLAN",
+    lifecycle: "LIVE",
   },
   milestones: [
     { name: "M0", description: "Project start" },
