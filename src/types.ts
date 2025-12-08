@@ -58,6 +58,7 @@ export interface Artifact {
 
 export interface ProcessConfig {
   processData: any;
+  processVersions?: TypeProcessVersion[];
   milestones: any[];
   map: Record<string, [string, string]>;
   independentPhases?: IndependentPhase[];
@@ -71,7 +72,18 @@ export interface Process {
   name: string;
   description: string;
   documentationUrl: string;
-  lifecycle: string;
+  lifecycle: "DRAFT" | "LIVE" | "END_OF_LIFE";
+}
+
+export interface TypeProcessVersion {
+  id?: string;
+  name: string;
+  description?: string;
+  documentationUrl?: string;
+  lifecycle: "DRAFT" | "LIVE" | "END_OF_LIFE";
+  versionLabel: string;
+  processTypeId: string;
+  goLiveDate?: string;
 }
 
 export interface Activity {

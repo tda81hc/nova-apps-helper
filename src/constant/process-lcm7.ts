@@ -19,20 +19,60 @@ export const PROCESS_LCM7 = {
     documentationUrl: "https://example.com",
     lifecycle: "LIVE",
   },
-
+  processVersions: [
+    {
+      name: "Type Process Demo For Business Case 1",
+      description: "Initial live release",
+      documentationUrl: "https://example.com",
+      lifecycle: "LIVE",
+      version: "v.01",
+      typeProcessId: "Type Process Demo For Business Case 1",
+      goLiveDate: "2025-11-28T09:00:00.000Z",
+    },
+    {
+      name: "Type Process Demo For Business Case 1",
+      description: "Demo process created via script",
+      documentationUrl: "https://example.com",
+      lifecycle: "LIVE",
+      version: "v.02",
+      typeProcessId: "Type Process Demo For Business Case 1",
+      goLiveDate: "2025-12-08T01:20:02.253292Z",
+    },
+    {
+      name: "Type Process Demo For Business Case 1",
+      description: "Fix documentation and milestone mappings",
+      documentationUrl: "https://example.com",
+      lifecycle: "LIVE",
+      version: "v.03",
+      typeProcessId: "Type Process Demo For Business Case 1",
+      goLiveDate: "2025-12-15T08:30:00.000Z",
+    },
+  ],
   milestones: [
     { name: "M0 Start", description: "Project start milestone" },
     { name: "M1 Planning", description: "Planning milestone" },
-    { name: "M1.1 Requirements Review", description: "Review and align requirements" },
-    { name: "M1.2 Stakeholder Sync", description: "Stakeholder review and approval" },
-    { name: "M1.3 Feasibility Gate", description: "Feasibility evaluation checkpoint" },
+    {
+      name: "M1.1 Requirements Review",
+      description: "Review and align requirements",
+    },
+    {
+      name: "M1.2 Stakeholder Sync",
+      description: "Stakeholder review and approval",
+    },
+    {
+      name: "M1.3 Feasibility Gate",
+      description: "Feasibility evaluation checkpoint",
+    },
     { name: "M2 Design Approved", description: "System design approved" },
     { name: "M3 Prototype Ready", description: "Prototype ready" },
     { name: "M4 Testing Completed", description: "Testing completed" },
     { name: "M5 Validation & Release", description: "Validation and release" },
     { name: "M6 Final Test Readiness", description: "Final test readiness" },
     { name: "M7 Project Closure", description: "Project closure" },
-    { name: "M8 Audit & Archive", description: "Post-closure audit and archiving" },
+    {
+      name: "M8 Audit & Archive",
+      description: "Post-closure audit and archiving",
+    },
   ],
 
   map: {
@@ -51,8 +91,14 @@ export const PROCESS_LCM7 = {
     "Risk Assessment": ["M2 Design Approved", "M3 Prototype Ready"],
 
     // 2 phases along Validation (M5 → M6)
-    "Field Trial Preparation": ["M6 Final Test Readiness", "M7 Project Closure"],
-    "Safety Compliance Check": ["M6 Final Test Readiness", "M7 Project Closure"],
+    "Field Trial Preparation": [
+      "M6 Final Test Readiness",
+      "M7 Project Closure",
+    ],
+    "Safety Compliance Check": [
+      "M6 Final Test Readiness",
+      "M7 Project Closure",
+    ],
 
     // 3 phases inside M1 → M2
     "Requirements Alignment": ["M1 Planning", "M1.1 Requirements Review"],
@@ -61,9 +107,18 @@ export const PROCESS_LCM7 = {
   } as Record<string, [string, string]>,
 
   independentPhases: [
-    { name: "Independent Phase A", description: "Standalone phase without milestones A" },
-    { name: "Independent Phase B", description: "Standalone phase without milestones B" },
-    { name: "Independent Phase C", description: "Standalone phase without milestones C" },
+    {
+      name: "Independent Phase A",
+      description: "Standalone phase without milestones A",
+    },
+    {
+      name: "Independent Phase B",
+      description: "Standalone phase without milestones B",
+    },
+    {
+      name: "Independent Phase C",
+      description: "Standalone phase without milestones C",
+    },
   ] as Array<{ name: string; description: string }>,
 
   workPackages: [

@@ -5,7 +5,6 @@ import { PROCESS_LCM3 } from "./constant/process-lcm3";
 import { PROCESS_LCM4 } from "./constant/process-lcm4";
 import { PROCESS_LCM5 } from "./constant/process-lcm5";
 import { PROCESS_LCM6 } from "./constant/process-lcm6";
-import { PROCESS_LCM6_1 } from "./constant/process-lcm6.1";
 import { PROCESS_LCM7 } from "./constant/process-lcm7";
 import {
   arg,
@@ -16,6 +15,7 @@ import {
   createNovaApp,
   createPhase,
   createProcess,
+  createProcessVersion,
   createWorkPackage,
   getBackendURL,
   getTenantId,
@@ -23,14 +23,13 @@ import {
 import { ArtifactFile, ArtifactWebForm, ProcessConfig } from "./types";
 
 const ALL_PROCESSES: ProcessConfig[] = [
-  PROCESS_LCM,
-  PROCESS_LCM1,
-  PROCESS_LCM2,
-  PROCESS_LCM3,
-  PROCESS_LCM4,
-  PROCESS_LCM5,
-  PROCESS_LCM6,
-  PROCESS_LCM6_1,
+  // PROCESS_LCM,
+  // PROCESS_LCM1,
+  // PROCESS_LCM2,
+  // PROCESS_LCM3,
+  // PROCESS_LCM4,
+  // PROCESS_LCM5,
+  // PROCESS_LCM6,
   PROCESS_LCM7,
 ];
 
@@ -124,6 +123,21 @@ async function run() {
     if (!processId) {
       console.error(`❌ Failed to create process: ${cfg.processData.name}`);
       continue;
+    }
+
+    // --- Create process verions
+    for (const pv of cfg.processVersions || []) {
+      const processVersionId = await createProcessVersion(
+        session,
+        tenantId,
+        processId,
+        pv
+      );
+      if (processVersionId) {
+        console.log(
+          `  ✅ Created process version: ${pv.name} (ID: ${processVersionId})`
+        );
+      }
     }
 
     // --- Create milestones

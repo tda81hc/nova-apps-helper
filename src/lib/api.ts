@@ -10,6 +10,7 @@ import {
   NovaApp,
   Phase,
   Process,
+  TypeProcessVersion,
   WorkPackage,
 } from "../types";
 import { HttpsProxyAgent } from "https-proxy-agent";
@@ -97,6 +98,21 @@ export async function createProcess(
     "CREATE_PROCESS",
     session,
     "/api/v1/process-model/processes",
+    payload,
+    tenantId
+  );
+}
+
+export async function createProcessVersion(
+  session: string,
+  tenantId: string,
+  processId: string,
+  payload: TypeProcessVersion
+) {
+  return post(
+    "CREATE_PROCESS",
+    session,
+    `/api/v1/process-model/processes/${processId}/versions`,
     payload,
     tenantId
   );
