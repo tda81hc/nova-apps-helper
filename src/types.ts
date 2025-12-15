@@ -76,14 +76,8 @@ export interface Process {
 }
 
 export interface TypeProcessVersion {
-  id?: string;
   name: string;
   description?: string;
-  documentationUrl?: string;
-  lifecycle: "DRAFT" | "LIVE" | "END_OF_LIFE";
-  versionLabel: string;
-  processTypeId: string;
-  goLiveDate?: string;
 }
 
 export interface Activity {

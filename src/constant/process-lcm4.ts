@@ -62,6 +62,12 @@ export const PROCESS_LCM4 = {
     documentationUrl: "https://example.com/",
     lifecycle: "LIVE",
   },
+  processVersions: [
+    {
+      description: "Initial live release",
+      version: "v.4",
+    },
+  ],
   milestones: [
     { name: "M0", description: "Project start" },
     { name: "M1", description: "Project initialization" },

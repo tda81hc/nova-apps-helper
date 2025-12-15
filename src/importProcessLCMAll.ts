@@ -23,13 +23,13 @@ import {
 import { ArtifactFile, ArtifactWebForm, ProcessConfig } from "./types";
 
 const ALL_PROCESSES: ProcessConfig[] = [
-  // PROCESS_LCM,
-  // PROCESS_LCM1,
-  // PROCESS_LCM2,
-  // PROCESS_LCM3,
-  // PROCESS_LCM4,
-  // PROCESS_LCM5,
-  // PROCESS_LCM6,
+  PROCESS_LCM,
+  PROCESS_LCM1,
+  PROCESS_LCM2,
+  PROCESS_LCM3,
+  PROCESS_LCM4,
+  PROCESS_LCM5,
+  PROCESS_LCM6,
   PROCESS_LCM7,
 ];
 
@@ -81,6 +81,7 @@ async function run() {
 
     // --- Create Artifact
     // --- Type FILE
+    console.log("\n===================================================");
     const createdArtifactFiletMap: Record<string, ArtifactFile> = {};
     for (const f of cfg.artifact?.files || []) {
       console.log(`🔹 Uploading Artifact File: ${f.name}`);
@@ -94,11 +95,11 @@ async function run() {
       }
     }
     // --- Type WEB_FORM
+    console.log("\n===================================================");
     const createdArtifactWebFormMap: Record<string, ArtifactWebForm> = {};
     for (const wf of cfg.artifact?.webForms || []) {
       const webFormWithApp = { ...wf, novaApp: wf.novaApp };
 
-      console.log("webFormWithApp: ", webFormWithApp);
       const webFormId = await createArtifactWebForm(
         session,
         tenantId,
@@ -112,35 +113,24 @@ async function run() {
           ...webFormWithApp,
           id: webFormId,
         };
-        console.log(
-          `  ✅ Created Artifact Web Form: ${wf.name} (ID: ${webFormId})`
-        );
+        console.log(`  ✅ Created Artifact Web Form: ${wf.name}`);
       }
     }
 
     // --- Create process
+    console.log("\n===================================================");
     const processId = await createProcess(session, tenantId, cfg.processData);
-    if (!processId) {
+    if (processId) {
+      console.log(
+        `  ✅ Created process: ${cfg.processData.name} (ID: ${processId})`
+      );
+    } else {
       console.error(`❌ Failed to create process: ${cfg.processData.name}`);
       continue;
     }
 
-    // --- Create process verions
-    for (const pv of cfg.processVersions || []) {
-      const processVersionId = await createProcessVersion(
-        session,
-        tenantId,
-        processId,
-        pv
-      );
-      if (processVersionId) {
-        console.log(
-          `  ✅ Created process version: ${pv.name} (ID: ${processVersionId})`
-        );
-      }
-    }
-
     // --- Create milestones
+    console.log("\n===================================================");
     const milestoneMap: Record<string, string> = {};
     for (const m of cfg.milestones) {
       const id = await createMilestone(session, tenantId, m);
@@ -287,6 +277,24 @@ async function run() {
       );
       if (activityId) {
         console.log(`    📝 Created activity: ${a.name}`);
+      }
+    }
+
+    // --- Create process verions
+    console.log("\n===================================================");
+    for (const pv of cfg.processVersions || []) {
+      console.log(
+        `🔹 Creating process version with ${processId}: and payload `,
+        JSON.stringify(pv)
+      );
+      const processVersionId = await createProcessVersion(
+        session,
+        tenantId,
+        processId,
+        pv
+      );
+      if (processVersionId) {
+        console.log(`  ✅ Created process version: (ID: ${processVersionId})`);
       }
     }
 

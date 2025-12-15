@@ -21,31 +21,8 @@ export const PROCESS_LCM7 = {
   },
   processVersions: [
     {
-      name: "Type Process Demo For Business Case 1",
       description: "Initial live release",
-      documentationUrl: "https://example.com",
-      lifecycle: "LIVE",
-      version: "v.01",
-      typeProcessId: "Type Process Demo For Business Case 1",
-      goLiveDate: "2025-11-28T09:00:00.000Z",
-    },
-    {
-      name: "Type Process Demo For Business Case 1",
-      description: "Demo process created via script",
-      documentationUrl: "https://example.com",
-      lifecycle: "LIVE",
-      version: "v.02",
-      typeProcessId: "Type Process Demo For Business Case 1",
-      goLiveDate: "2025-12-08T01:20:02.253292Z",
-    },
-    {
-      name: "Type Process Demo For Business Case 1",
-      description: "Fix documentation and milestone mappings",
-      documentationUrl: "https://example.com",
-      lifecycle: "LIVE",
-      version: "v.03",
-      typeProcessId: "Type Process Demo For Business Case 1",
-      goLiveDate: "2025-12-15T08:30:00.000Z",
+      version: "v.7",
     },
   ],
   milestones: [

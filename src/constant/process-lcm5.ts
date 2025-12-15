@@ -98,6 +98,12 @@ export const PROCESS_LCM5 = {
     documentationUrl: "https://example.com/enterprise-lcm",
     lifecycle: "LIVE",
   },
+  processVersions: [
+    {
+      description: "Initial live release",
+      version: "v.5",
+    },
+  ],
   milestones: [
     { name: "G0 Charter", description: "Program charter approved" },
     { name: "G1 Scope Freeze", description: "Scope and OKRs finalized" },

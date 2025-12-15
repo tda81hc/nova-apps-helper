@@ -110,7 +110,7 @@ export async function createProcessVersion(
   payload: TypeProcessVersion
 ) {
   return post(
-    "CREATE_PROCESS",
+    "CREATE_PROCESS_VERSION",
     session,
     `/api/v1/process-model/processes/${processId}/versions`,
     payload,
