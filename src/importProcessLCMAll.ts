@@ -23,14 +23,14 @@ import {
 import { ArtifactFile, ArtifactWebForm, ProcessConfig } from "./types";
 
 const ALL_PROCESSES: ProcessConfig[] = [
-  PROCESS_LCM,
-  PROCESS_LCM1,
-  PROCESS_LCM2,
-  PROCESS_LCM3,
-  PROCESS_LCM4,
-  PROCESS_LCM5,
-  PROCESS_LCM6,
-  PROCESS_LCM7,
+  PROCESS_LCM as unknown as ProcessConfig,
+  PROCESS_LCM1 as unknown as ProcessConfig,
+  PROCESS_LCM2 as unknown as ProcessConfig,
+  PROCESS_LCM3 as unknown as ProcessConfig,
+  PROCESS_LCM4 as unknown as ProcessConfig,
+  PROCESS_LCM5 as unknown as ProcessConfig,
+  PROCESS_LCM6 as unknown as ProcessConfig,
+  PROCESS_LCM7 as unknown as ProcessConfig,
 ];
 
 async function run() {
@@ -56,7 +56,6 @@ async function run() {
   }
 
   for (const cfg of ALL_PROCESSES) {
-    console.log("\n===================================================");
     console.log(`🚀 Creating process: ${cfg.processData.name}`);
 
     // --- Create Nova App
@@ -64,11 +63,11 @@ async function run() {
     for (const novaApp of cfg.novaApps || []) {
       if (!novaApp.name) {
         console.error(`❌ Missing Nova App configuration`);
-        continue;
       }
 
       const novaAppId = await createNovaApp(session, novaApp);
       if (novaAppId) {
+        console.log("\n===================================================");
         createdNovaAppMap[novaApp.name] = novaAppId;
         console.log(
           `  ✅ Created Nova App: ${novaApp.name} (ID: ${novaAppId})`
@@ -81,17 +80,16 @@ async function run() {
 
     // --- Create Artifact
     // --- Type FILE
-    console.log("\n===================================================");
     const createdArtifactFiletMap: Record<string, ArtifactFile> = {};
     for (const f of cfg.artifact?.files || []) {
       console.log(`🔹 Uploading Artifact File: ${f.name}`);
       const fileId = await createArtifactFile(session, tenantId, f);
-      if (!fileId) {
-        console.error(`❌ Failed to create Artifact File: ${f.name}`);
-        continue;
-      } else {
+      if (fileId) {
+        console.log("\n===================================================");
         createdArtifactFiletMap[f.name] = { ...f, id: fileId };
         console.log(`  ✅ Created Artifact File: ${f.name} (ID: ${fileId})`);
+      } else {
+        console.error(`❌ Failed to create Artifact File: ${f.name}`);
       }
     }
     // --- Type WEB_FORM
@@ -105,22 +103,21 @@ async function run() {
         tenantId,
         webFormWithApp
       );
-      if (!webFormId) {
-        console.error(`❌ Failed to create Artifact Web Form: ${wf.name}`);
-        continue;
-      } else {
+      if (webFormId) {
         createdArtifactWebFormMap[wf.name] = {
           ...webFormWithApp,
           id: webFormId,
         };
         console.log(`  ✅ Created Artifact Web Form: ${wf.name}`);
+      } else {
+        console.error(`❌ Failed to create Artifact Web Form: ${wf.name}`);
       }
     }
 
     // --- Create process
-    console.log("\n===================================================");
     const processId = await createProcess(session, tenantId, cfg.processData);
     if (processId) {
+      console.log("\n===================================================");
       console.log(
         `  ✅ Created process: ${cfg.processData.name} (ID: ${processId})`
       );
@@ -239,12 +236,12 @@ async function run() {
           const found = createdArtifactFiletMap[name];
 
           if (found) {
-            return found;
+            return found.id;
           }
 
           return undefined;
         })
-        .filter((item): item is ArtifactFile => item !== undefined);
+        .filter((item): item is string => item !== undefined);
 
       const outputArtifacts = a.outputArtifacts
         ?.map((art: any) => {
@@ -253,12 +250,12 @@ async function run() {
           const found = createdArtifactWebFormMap[name];
 
           if (found) {
-            return found;
+            return found.id;
           }
 
           return undefined;
         })
-        .filter((item): item is ArtifactWebForm => item !== undefined);
+        .filter((item): item is string => item !== undefined);
 
       const activity = {
         ...a,
@@ -267,6 +264,7 @@ async function run() {
         phaseId,
         workPackageId,
       };
+      console.log(`\n🔹 Creating activity: `, activity);
       const activityId = await createActivity(
         session,
         tenantId,
@@ -303,6 +301,6 @@ async function run() {
 }
 
 run().catch((err) => {
-  console.error("Fatal error:", err?.message || err);
+  console.error("Fatal error:", (err as Error)?.message || err);
   process.exit(99);
 });

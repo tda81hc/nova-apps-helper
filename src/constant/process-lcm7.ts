@@ -14,7 +14,7 @@ export const PROCESS_LCM7 = {
   ],
 
   processData: {
-    name: "Type Process Demo For Business Case 1",
+    name: "Type Process Demo For Business Case 21",
     description: "Demo process created via script",
     documentationUrl: "https://example.com",
     lifecycle: "LIVE",

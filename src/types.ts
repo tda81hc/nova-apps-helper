@@ -86,8 +86,8 @@ export interface Activity {
   description: string;
   responsibleRole?: string | null;
   supportingRoles?: string[];
-  inputArtifacts?: ArtifactFile[] | undefined;
-  outputArtifacts?: ArtifactWebForm[] | undefined;
+  inputArtifacts?: string[];
+  outputArtifacts?: string[];
   workPackageId: string;
   phaseId: string;
 }
